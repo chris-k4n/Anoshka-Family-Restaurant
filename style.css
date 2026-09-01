@@ -79,7 +79,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* ---- Scroll progress arc (signature element) ---- */
-#scroll-progress {
+/* #scroll-progress {
   position: fixed;
   top: 0; left: 0;
   height: 2px;
@@ -90,7 +90,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   z-index: 1000;
   will-change: transform;
   pointer-events: none;
-}
+} */
 
 /* ---- Eyebrow / section labels ---- */
 .eyebrow {

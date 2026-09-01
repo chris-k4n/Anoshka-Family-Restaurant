@@ -10,7 +10,7 @@
   /* ---------- Header + scroll progress ---------- */
 
   var header = document.getElementById('site-header');
-  var scrollProgress = document.getElementById('scroll-progress');
+  // var scrollProgress = document.getElementById('scroll-progress');
 
   /* Cache section offsets instead of reading getBoundingClientRect() on
      every single scroll event — that forces a synchronous layout each
@@ -86,16 +86,16 @@
         header.classList.toggle('is-scrolled', scrollY > 40);
       }
 
-      if (scrollProgress) {
-        var percentage = docHeight > 0 ? scrollY / docHeight : 0;
-        /* transform: scaleX() is compositor-only (no layout/paint),
-           unlike animating `width`, which is far cheaper on every
-           scroll frame and avoids the smeared/blurred bar some
-           browsers render when a fixed element's width changes
-           continuously behind a backdrop-filter blur. */
-        scrollProgress.style.transform =
-          'scaleX(' + percentage + ')';
-      }
+      // if (scrollProgress) {
+      //   var percentage = docHeight > 0 ? scrollY / docHeight : 0;
+      //   /* transform: scaleX() is compositor-only (no layout/paint),
+      //      unlike animating `width`, which is far cheaper on every
+      //      scroll frame and avoids the smeared/blurred bar some
+      //      browsers render when a fixed element's width changes
+      //      continuously behind a backdrop-filter blur. */
+      //   scrollProgress.style.transform =
+      //     'scaleX(' + percentage + ')';
+      // }
 
       updateActiveNav(scrollY);
 

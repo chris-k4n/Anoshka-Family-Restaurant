@@ -3,7 +3,9 @@
    Design tokens live at the top. Change these to re-theme the whole site.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+/* Font loading moved to <link> tags in index.html (with preconnect) —
+   @import here would block CSS parsing until the fonts stylesheet is
+   fetched too, delaying first paint. */
 
 :root {
   /* ---- Color tokens ---- */
@@ -81,10 +83,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   position: fixed;
   top: 0; left: 0;
   height: 2px;
-  width: 0%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 0;
   background: linear-gradient(90deg, var(--accent), var(--gold));
   z-index: 1000;
-  transition: width 0.1s linear;
+  will-change: transform;
+  pointer-events: none;
 }
 
 /* ---- Eyebrow / section labels ---- */
@@ -259,20 +264,32 @@ and remove the text logo. Keep both rules below ready. */
   display: none;
   flex-direction: column;
   justify-content: center;
-  gap: 5px;
-  width: 30px; height: 24px;
+  align-items: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  margin: -10px;
+  border-radius: 50%;
   z-index: 950;
+  cursor: pointer;
+  transition: background 0.3s var(--ease);
 }
+.hamburger:hover,
+.hamburger:focus-visible { background: rgba(255, 234, 136, 0.08); }
 .hamburger span {
   display: block;
-  width: 100%;
-  height: 1px;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
   background: var(--ivory);
+  /* Keeps the icon legible over bright hero imagery even before the
+     header has a solid background behind it. */
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
   transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
 }
-.hamburger.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.is-open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .hamburger.is-open span:nth-child(2) { opacity: 0; }
-.hamburger.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.hamburger.is-open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 /* ==========================================================================
    HERO
@@ -591,6 +608,13 @@ or <img class="hero-media" src="assets/images/hero.jpg" alt="Anoshka restaurant,
    GALLERY
    ========================================================================== */
 .gallery { padding: var(--section-pad) 0; background: var(--bg); }
+/* Skip layout/paint/style work for offscreen sections until the user
+   scrolls near them — meaningfully cuts down main-thread work on a
+   page this long, especially on mobile. */
+.gallery, .menu-section, .events, .reviews, .instagram, .location, .enquiry {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1200px;
+}
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);

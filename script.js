@@ -12,9 +12,15 @@
   var header = document.getElementById('site-header');
   var scrollProgress = document.getElementById('scroll-progress');
 
-  function updateActiveNav() {
-    var navLinks = document.querySelectorAll('.main-nav .nav-link');
+  /* Cache section offsets instead of reading getBoundingClientRect() on
+     every single scroll event — that forces a synchronous layout each
+     time and is the main cause of scroll jank. We only recompute this
+     when the page loads or resizes, not on every scroll tick. */
+  var navLinks = document.querySelectorAll('.main-nav .nav-link');
+  var allNavLinks = document.querySelectorAll('.nav-link');
+  var cachedSections = [];
 
+  function cacheSectionOffsets() {
     var sectionMap = {};
 
     Array.prototype.forEach.call(navLinks, function (link) {
@@ -32,22 +38,26 @@
       }
     });
 
-    var sections = Object.keys(sectionMap).map(function (id) {
-      return { id: id, top: sectionMap[id].getBoundingClientRect().top + window.scrollY };
-    });
+    cachedSections = Object.keys(sectionMap)
+      .map(function (id) {
+        return { id: id, top: sectionMap[id].offsetTop };
+      })
+      .sort(function (a, b) { return a.top - b.top; });
+  }
 
-    sections.sort(function (a, b) { return a.top - b.top; });
+  function updateActiveNav(scrollY) {
+    if (!cachedSections.length) return;
 
-    var scrollPos = window.scrollY + 140;
-    var currentId = sections.length ? sections[0].id : null;
+    var scrollPos = scrollY + 140;
+    var currentId = cachedSections[0].id;
 
-    sections.forEach(function (s) {
+    cachedSections.forEach(function (s) {
       if (s.top <= scrollPos) {
         currentId = s.id;
       }
     });
 
-    document.querySelectorAll('.nav-link').forEach(function (link) {
+    allNavLinks.forEach(function (link) {
       link.classList.toggle(
         'active',
         link.getAttribute('href') === '#' + currentId
@@ -55,39 +65,60 @@
     });
   }
 
-  function onScroll() {
-    if (header) {
-      header.classList.toggle(
-        'is-scrolled',
-        window.scrollY > 40
-      );
-    }
-
-    if (scrollProgress) {
-      var doc = document.documentElement;
-      var scrollTop =
-        doc.scrollTop || document.body.scrollTop;
-
-      var height =
-        doc.scrollHeight - doc.clientHeight;
-
-      var percentage =
-        height > 0
-          ? (scrollTop / height) * 100
-          : 0;
-
-      scrollProgress.style.width =
-        percentage + '%';
-    }
-
-    updateActiveNav();
+  /* Precompute the scrollable height once per scroll batch instead of
+     forcing layout (scrollHeight/clientHeight) on every tick. */
+  var docHeight = 0;
+  function cacheDocHeight() {
+    var doc = document.documentElement;
+    docHeight = doc.scrollHeight - doc.clientHeight;
   }
 
-  window.addEventListener(
-    'scroll',
-    onScroll,
-    { passive: true }
-  );
+  var ticking = false;
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+
+    window.requestAnimationFrame(function () {
+      var scrollY = window.scrollY;
+
+      if (header) {
+        header.classList.toggle('is-scrolled', scrollY > 40);
+      }
+
+      if (scrollProgress) {
+        var percentage = docHeight > 0 ? scrollY / docHeight : 0;
+        /* transform: scaleX() is compositor-only (no layout/paint),
+           unlike animating `width`, which is far cheaper on every
+           scroll frame and avoids the smeared/blurred bar some
+           browsers render when a fixed element's width changes
+           continuously behind a backdrop-filter blur. */
+        scrollProgress.style.transform =
+          'scaleX(' + percentage + ')';
+      }
+
+      updateActiveNav(scrollY);
+
+      ticking = false;
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () {
+    cacheSectionOffsets();
+    cacheDocHeight();
+  }, { passive: true });
+
+  cacheSectionOffsets();
+  cacheDocHeight();
+
+  /* Images loading in below the fold can change section offsets/page
+     height after we've already cached them, so re-cache once everything
+     (including images) has finished loading. */
+  window.addEventListener('load', function () {
+    cacheSectionOffsets();
+    cacheDocHeight();
+  });
 
   /* ---------- Mobile menu ---------- */
 

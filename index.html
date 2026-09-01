@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anoshka  Fine Dining in Goa</title>
 <meta name="description" content="Anoshka — a premium dining experience on the coast of Goa. Fine dining, sunset views and private celebrations.">
+<meta name="theme-color" content="#120d09">
+
+<!-- Preconnect first, then load the fonts stylesheet directly (instead of
+     @import inside style.css) so the browser can fetch fonts in parallel
+     with the page CSS rather than discovering them only after style.css
+     has already been fetched and parsed. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+
 <link rel="stylesheet" href="style.css">
 <!-- Replace with the real favicon once supplied: <link rel="icon" href="assets/icons/favicon.png"> -->
 </head>
@@ -18,7 +28,7 @@
      ========================================================================== -->
 <header class="site-header" id="site-header">
   <div class="container">
-    <a href="#home" class="logo"><img src="./assets/Anoshka - Logo .png" alt=""></a>
+    <a href="#home" class="logo"><img src="./assets/Anoshka - Logo .png" alt="" loading="eager" fetchpriority="high" decoding="async"></a>
     <!-- Once a real logo file is supplied, replace the line above with:
     <a href="#home" class="logo-image"><img src="assets/images/anoshka-logo.png" alt="Anoshka"></a> -->
 
@@ -111,7 +121,7 @@
   <div class="container">
     <div class="about-media reveal">
       <div>
-        <span><img src="./assets/exterior-08.webp" alt="Anoshka entrance"></span>
+        <span><img src="./assets/exterior-08.webp" alt="Anoshka entrance" loading="eager" decoding="async"></span>
       </div>
       <div class="frame-accent" aria-hidden="true"></div>
     </div>
@@ -185,18 +195,18 @@
     <!-- TODO: replace placeholder dishes with the restaurant's actual signature dishes, photos and prices -->
     <div class="dishes-grid">
       <article class="dish-card reveal">
-        <div class="dish-media"><div><span><img src="./assets/dish-07.webp" alt="Grilled tandoori platter"></span></div></div>
-        <div class="dish-info"><h3>Dish Name</h3><span class="dish-price">₹ —</span></div>
+        <div class="dish-media"><div><span><img src="./assets/dish-07.webp" alt="Grilled tandoori platter" loading="lazy" decoding="async"></span></div></div>
+        <div class="dish-info"><h3>Tiger Prawns Recheado</h3><span class="dish-price">₹ —</span></div>
         <p class="dish-desc">Short description of the dish, its ingredients and preparation.</p>
       </article>
       <article class="dish-card reveal reveal-delay-1">
-        <div class="dish-media"><div><span><img src="./assets/dish-01.webp" alt="Goan thali"></span></div></div>
-        <div class="dish-info"><h3>Dish Name</h3><span class="dish-price">₹ —</span></div>
+        <div class="dish-media"><div><span><img src="./assets/dish-01.webp" alt="Goan thali" loading="lazy" decoding="async"></span></div></div>
+        <div class="dish-info"><h3>Fish Curry Rice</h3><span class="dish-price">₹ —</span></div>
         <p class="dish-desc">Short description of the dish, its ingredients and preparation.</p>
       </article>
       <article class="dish-card reveal reveal-delay-2">
-        <div class="dish-media"><div><span><img src="./assets/dish-21.webp" alt="Plated curry"></span></div></div>
-        <div class="dish-info"><h3>Dish Name</h3><span class="dish-price">₹ —</span></div>
+        <div class="dish-media"><div><span><img src="./assets/dish-21.webp" alt="Plated curry" loading="lazy" decoding="async"></span></div></div>
+        <div class="dish-info"><h3>Butter Chicken</h3><span class="dish-price">₹ —</span></div>
         <p class="dish-desc">Short description of the dish, its ingredients and preparation.</p>
       </article>
     </div>
@@ -600,14 +610,14 @@
     </div>
     <!-- TODO: replace each placeholder with a real photo/video from assets/images or assets/videos -->
     <div class="gallery-grid">
-      <div class="gallery-item wide tall reveal"><div><span><img src="./assets/interior-06.webp" alt="Interior"></span></div><div class="gallery-caption">Interior</div></div>
-      <div class="gallery-item reveal"><div><span><img src="./assets/dish-12.webp" alt="Food"></span></div><div class="gallery-caption">Food</div></div>
-      <div class="gallery-item tall reveal"><div><span><img src="./assets/drink-13.webp" alt="Drink"></span></div><div class="gallery-caption">Cocktails</div></div>
-      <div class="gallery-item reveal"><div><span><img src="./assets/dish-preparation-43.webp" alt=""></span></div><div class="gallery-caption"></div></div>
-      <div class="gallery-item tall reveal"><div><span><img src="./assets/exterior-08.webp" alt="Entrance"></span></div><div class="gallery-caption">Entrance</div></div>
-      <div class="gallery-item reveal"><div><span><img src="./assets/interior-20.webp" alt="Guests"></span></div><div class="gallery-caption">Guests</div></div>
-      <div class="gallery-item wide reveal"><div><span><img src="./assets/M4_09826.webp" alt="Food"></span></div><div class="gallery-caption">Food</div></div>
-      <div class="gallery-item reveal"><div><span><img src="./assets/interior-04.webp" alt="Events"></span></div><div class="gallery-caption">Events</div></div>
+      <div class="gallery-item wide tall reveal"><div><span><img src="./assets/interior-06.webp" alt="Interior" loading="lazy" decoding="async"></span></div><div class="gallery-caption">Interior</div></div>
+      <div class="gallery-item reveal"><div><span><img src="./assets/dish-12.webp" alt="Food" loading="lazy" decoding="async"></span></div><div class="gallery-caption">Food</div></div>
+      <div class="gallery-item tall reveal"><div><span><img src="./assets/drink-13.webp" alt="Drink" loading="lazy" decoding="async"></span></div><div class="gallery-caption">Cocktails</div></div>
+      <div class="gallery-item reveal"><div><span><img src="./assets/dish-preparation-43.webp" alt="" loading="lazy" decoding="async"></span></div><div class="gallery-caption"></div></div>
+      <div class="gallery-item tall reveal"><div><span><img src="./assets/exterior-08.webp" alt="Entrance" loading="lazy" decoding="async"></span></div><div class="gallery-caption">Entrance</div></div>
+      <div class="gallery-item reveal"><div><span><img src="./assets/interior-20.webp" alt="Guests" loading="lazy" decoding="async"></span></div><div class="gallery-caption">Guests</div></div>
+      <div class="gallery-item wide reveal"><div><span><img src="./assets/M4_09826.webp" alt="Food" loading="lazy" decoding="async"></span></div><div class="gallery-caption">Food</div></div>
+      <div class="gallery-item reveal"><div><span><img src="./assets/interior-04.webp" alt="Events" loading="lazy" decoding="async"></span></div><div class="gallery-caption">Events</div></div>
     </div>
   </div>
 </section>
@@ -988,7 +998,6 @@
       <ul>
         <li><strong>Phone</strong><a href="tel:+919823625416">+91 9823625416</a></li>
         <li><strong>Email</strong><a href="mailto:hello@anoshka.example">hello@anoshka.example</a></li>
-        <li><strong>Hours</strong><p>7:00 PM – 12:00 AM, daily</p></li>
       </ul>
     </div>
 
@@ -1074,10 +1083,6 @@
         <div class="item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
           <div><h4>Email</h4><a href="mailto:hello@anoshka.example">hello@anoshka.example</a></div>
-        </div>
-        <div class="item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          <div><h4>Hours</h4><p>7:00 PM – 12:00 AM, daily</p></div>
         </div>
       </div>
       <div class="location-actions">
